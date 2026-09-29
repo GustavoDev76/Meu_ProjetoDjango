@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="login-wrapper d-flex align-items-center justify-content-center">
+    <div class="login-card p-4 p-md-5">
+        <div class="text-center mb-4">
+            <div class="login-icon mb-2">🔐</div>
+            <h2 class="login-title">Aceder ao Vault</h2>
+            <p class="text-muted small">Insere as tuas credenciais para continuar</p>
+        </div>
+
+        {% if form.errors %}
+            <div class="alert alert-danger text-center p-2 mb-4" role="alert">
+                <small>Utilizador ou palavra-passe incorretos.</small>
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Utilizador</label>
+                <input type="text" name="username" class="form-control" id="id_username" placeholder="Digite o seu utilizador" required autofocus>
+            </div>
+
+            <div class="mb-4">
+                <label for="id_password" class="form-label">Palavra-passe</label>
+                <input type="password" name="password" class="form-control" id="id_password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 btn-glow">Entrar no Vault</button>
+        </form>
+    </div>
+</div>
+{% endblock %}<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"><head>
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_ApprovalStatus msdt:dt="string">0</mso:_ApprovalStatus>
+<mso:_ApprovalAssignedTo msdt:dt="string"></mso:_ApprovalAssignedTo>
+<mso:_ApprovalRespondedBy msdt:dt="string"></mso:_ApprovalRespondedBy>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>

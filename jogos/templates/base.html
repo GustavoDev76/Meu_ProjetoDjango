@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt" xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Vault</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome (Ícones para Redes Sociais e Utilizador) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Teu CSS do Game Vault -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_ApprovalStatus msdt:dt="string">0</mso:_ApprovalStatus>
+<mso:_ApprovalAssignedTo msdt:dt="string"></mso:_ApprovalAssignedTo>
+<mso:_ApprovalRespondedBy msdt:dt="string"></mso:_ApprovalRespondedBy>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">🎮 Game Vault</a>
+            <div class="d-flex align-items-center">
+                {% if user.is_authenticated %}
+                    <!-- Ícone de pessoa simples, branco e sem fundo -->
+                    <span class="navbar-text me-3 text-white d-flex align-items-center gap-2">
+                        <i class="fa-regular fa-user text-white fs-5"></i> Olá, <strong>{{ user.username }}</strong>
+                    </span>
+                    <a href="{% url 'criar_jogo' %}" class="btn btn-success btn-sm me-2">+ Adicionar Jogo</a>
+                    <form action="{% url 'logout' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-light btn-sm">Sair</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">
+                        <i class="fa-regular fa-user me-1"></i> Entrar
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Novo Rodapé do Game Vault -->
+    <footer class="footer-vault mt-5 py-5 border-top border-secondary">
+        <div class="container">
+            <div class="row gy-4">
+                <!-- Coluna 1: Sobre a Empresa -->
+                <div class="col-lg-5 col-md-6">
+                    <h5 class="footer-brand mb-3">🎮 GAME VAULT</h5>
+                    <p class="footer-text">
+                        A Game Vault é a tua plataforma definitiva para catalogar, organizar e acompanhar a tua biblioteca de videojogos. Guarda os teus jogos favoritos, acompanha o teu progresso e avalia cada experiência num só lugar.
+                    </p>
+                </div>
+
+                <!-- Coluna 2: Links Rápidos -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="footer-heading mb-3">Navegação</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="{% url 'home' %}">Início / Biblioteca</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'criar_jogo' %}">Adicionar Novo Jogo</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Aceder à Conta</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <!-- Coluna 3: Redes Sociais -->
+                <div class="col-lg-4 col-md-12">
+                    <h6 class="footer-heading mb-3">Siga o Game Vault</h6>
+                    <p class="footer-text mb-3">Junta-te à nossa comunidade nas redes sociais:</p>
+                    <div class="d-flex flex-wrap gap-2 social-links">
+                        <a href="https://discord.com" target="_blank" class="social-btn" title="Discord">
+                            <i class="fab fa-discord"></i> Discord
+                        </a>
+                        <a href="https://twitter.com" target="_blank" class="social-btn" title="X / Twitter">
+                            <i class="fab fa-x-twitter"></i> Twitter
+                        </a>
+                        <a href="https://instagram.com" target="_blank" class="social-btn" title="Instagram">
+                            <i class="fab fa-instagram"></i> Instagram
+                        </a>
+                        <a href="https://youtube.com" target="_blank" class="social-btn" title="YouTube">
+                            <i class="fab fa-youtube"></i> YouTube
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4 border-secondary opacity-50">
+
+            <!-- Linha do Copyright -->
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <span class="copyright-text">
+                        &copy; 2026 <strong>Game Vault, Inc.</strong> Todos os direitos reservados.
+                    </span>
+                </div>
+                <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+                    <span class="copyright-subtext">Desenvolvido para Gamers &bull; Powered by Django</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

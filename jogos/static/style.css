@@ -1,0 +1,331 @@
+/* =========================================================
+   GAME VAULT - TEMA GAMING ESCURO & MODERNO
+   ========================================================= */
+
+/* Importar fonte moderna e futurista (Rajdhani & Inter) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Rajdhani:wght@600;700&display=swap');
+
+:root {
+    --bg-main: #0b0e14;
+    --bg-card: #151a23;
+    --bg-card-hover: #1c2330;
+    --accent-purple: #7000ff;
+    --accent-cyan: #00f0ff;
+    --accent-green: #00ff88;
+    --text-primary: #f0f4f8;
+    --text-muted: #8a99ad;
+    --border-color: rgba(255, 255, 255, 0.08);
+}
+
+body {
+    background-color: var(--bg-main) !important;
+    color: var(--text-primary) !important;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- NAVBAR ESTILO VAULT --- */
+.navbar {
+    background-color: rgba(21, 26, 35, 0.9) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-brand {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+    background-clip: text; /* Padrão moderno */
+    -webkit-background-clip: text; /* Suporte Webkit */
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+}
+
+/* --- CARDS DE JOGOS E CONTAINERS --- */
+.card {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px !important;
+    color: var(--text-primary) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    background-color: var(--bg-card-hover) !important;
+    border-color: rgba(0, 240, 255, 0.3) !important;
+    box-shadow: 0 12px 28px rgba(0, 240, 255, 0.15);
+}
+
+.card-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.card-subtitle {
+    color: var(--text-muted) !important;
+}
+
+/* --- BADGES GAMER (Status e Nota) --- */
+.badge {
+    padding: 0.5em 0.8em;
+    font-weight: 600;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+}
+
+.bg-primary {
+    background-color: rgba(112, 0, 255, 0.2) !important;
+    color: #b380ff !important;
+    border: 1px solid rgba(112, 0, 255, 0.4);
+}
+
+.bg-warning {
+    background-color: rgba(255, 184, 0, 0.15) !important;
+    color: #ffcc00 !important;
+    border: 1px solid rgba(255, 184, 0, 0.3);
+}
+
+/* --- BOTÕES NEON & INTERATIVOS --- */
+.btn {
+    border-radius: 8px !important;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-purple), #4900b3) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(112, 0, 255, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #821aff, #5900dc) !important;
+    box-shadow: 0 6px 16px rgba(112, 0, 255, 0.5);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--accent-green), #009952) !important;
+    border: none !important;
+    color: #000 !important;
+    font-weight: 700;
+}
+
+.btn-info {
+    background-color: rgba(0, 240, 255, 0.1) !important;
+    color: var(--accent-cyan) !important;
+    border: 1px solid rgba(0, 240, 255, 0.3) !important;
+}
+
+.btn-info:hover {
+    background-color: var(--accent-cyan) !important;
+    color: #000 !important;
+}
+
+.btn-warning {
+    background-color: rgba(255, 193, 7, 0.1) !important;
+    color: #ffc107 !important;
+    border: 1px solid rgba(255, 193, 7, 0.3) !important;
+}
+
+.btn-warning:hover {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.btn-danger {
+    background-color: rgba(255, 77, 77, 0.1) !important;
+    color: #ff4d4d !important;
+    border: 1px solid rgba(255, 77, 77, 0.3) !important;
+}
+
+.btn-danger:hover {
+    background-color: #ff4d4d !important;
+    color: #fff !important;
+}
+
+/* --- FORMULÁRIOS & INPUTS --- */
+.form-control, .form-select {
+    background-color: #0f131a !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 1rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.2) !important;
+}
+
+label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+/* --- RODAPÉ --- */
+footer {
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    margin-top: auto !important;
+}
+
+/* =========================================================
+   PÁGINA DE LOGIN MODERN GAMING
+   ========================================================= */
+
+/* Centraliza o container de login no meio da tela */
+.login-wrapper {
+    min-height: calc(80vh - 100px);
+}
+
+/* Card de Login Futurista */
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color);
+    border-radius: 16px !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(112, 0, 255, 0.15);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Linha brilhante no topo do card */
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+}
+
+.login-icon {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.4));
+}
+
+.login-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+    text-transform: uppercase;
+}
+
+/* Efeito Glow no botão de login */
+.btn-glow {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    box-shadow: 0 0 15px rgba(112, 0, 255, 0.4);
+}
+
+.btn-glow:hover {
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+}
+
+/* =========================================================
+   ESTILOS DO RODAPÉ (FOOTER)
+   ========================================================= */
+
+   .footer-vault {
+    background-color: #0b0f19;
+    border-top: 1px solid var(--border-color) !important;
+}
+
+.footer-brand {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 1.5px;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Texto bem claro e fácil de ler */
+.footer-text {
+    color: #e2e8f0 !important;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.footer-heading {
+    font-family: 'Rajdhani', sans-serif;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Links do Rodapé */
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.footer-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--accent-cyan);
+    text-decoration: underline;
+}
+
+/* Botões das Redes Sociais */
+.social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: #f1f5f9;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.social-btn:hover {
+    background: rgba(0, 240, 255, 0.15);
+    border-color: var(--accent-cyan);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 240, 255, 0.25);
+}
+
+/* Copyright */
+.copyright-text {
+    color: #94a3b8;
+    font-size: 0.88rem;
+}
+
+.copyright-subtext {
+    color: #64748b;
+    font-size: 0.82rem;
+}

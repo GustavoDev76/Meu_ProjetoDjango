@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>🎮 A Tua Biblioteca de Jogos</h2>
+    {% if user.is_authenticated %}
+        <a href="{% url 'criar_jogo' %}" class="btn btn-primary">+ Novo Jogo</a>
+    {% endif %}
+</div>
+
+<div class="row">
+    {% for jogo in jogos %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 overflow-hidden">
+                <!-- Imagem do Jogo -->
+                {% if jogo.imagem_url %}
+                    <img src="{{ jogo.imagem_url }}" class="card-img-top" alt="{{ jogo.titulo }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <div class="bg-dark text-center py-5 border-bottom border-secondary" style="height: 200px;">
+                        <span class="fs-1">🎮</span>
+                    </div>
+                {% endif %}
+
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title mb-0">{{ jogo.titulo }}</h5>
+                        <!-- Status com Badge -->
+                        <span class="badge bg-info text-dark">{{ jogo.status }}</span>
+                    </div>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ jogo.plataforma }}</h6>
+                    <p class="card-text text-light">{{ jogo.descricao|truncatewords:12 }}</p>
+                    <span class="badge bg-warning text-dark">Nota: {{ jogo.nota }}/10</span>
+                </div>
+                <div class="card-footer bg-transparent border-0 d-flex justify-content-between pb-3">
+                    <a href="{% url 'detalhe_jogo' jogo.pk %}" class="btn btn-info btn-sm w-100">Ver Detalhes</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12 text-center py-5">
+            <p class="text-white fs-5 fw-bold">Nenhum jogo registado no Vault ainda.</p>
+            {% if user.is_authenticated %}
+                <a href="{% url 'criar_jogo' %}" class="btn btn-success">+ Adicionar o Primeiro Jogo</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"><head>
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_ApprovalStatus msdt:dt="string">0</mso:_ApprovalStatus>
+<mso:_ApprovalAssignedTo msdt:dt="string"></mso:_ApprovalAssignedTo>
+<mso:_ApprovalRespondedBy msdt:dt="string"></mso:_ApprovalRespondedBy>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>

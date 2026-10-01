@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5 text-center" style="max-width: 650px;">
+    <div class="card bg-dark text-white border-success shadow-lg p-5">
+        <div class="mb-4 text-success">
+            <i class="fa-solid fa-circle-check display-1"></i>
+        </div>
+        <h2 class="text-success fw-bold mb-3">Compra Realizada com Sucesso!</h2>
+        <p class="fs-5 text-light">Obrigado, <strong>{{ nome }}</strong>!</p>
+        <p class="text-muted">
+            Enviamos os detalhes do pedido e a instrução de resgate de <strong>{{ jogo.titulo }}</strong> para o e-mail: <br>
+            <span class="text-info fw-bold">{{ email }}</span>
+        </p>
+
+        <div class="bg-black p-3 rounded border border-secondary my-3 text-start">
+            <p class="mb-1 text-muted small">Resumo do Pedido:</p>
+            <p class="mb-1 text-white"><strong>Jogo:</strong> {{ jogo.titulo }}</p>
+            <p class="mb-1 text-white"><strong>Valor:</strong> R$ {{ jogo.preco }}</p>
+            <p class="mb-0 text-white"><strong>Pagamento:</strong> {{ metodo }}</p>
+        </div>
+
+        <div class="mt-4">
+            <a href="{% url 'loja' %}" class="btn btn-warning fw-bold px-4">Voltar à Loja</a>
+            <a href="{% url 'home' %}" class="btn btn-outline-light px-4">Ir para a Biblioteca</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

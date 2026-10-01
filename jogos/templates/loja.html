@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Linha Superior com Voltar e Botão de Adicionar à Loja -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{% url 'home' %}" class="btn btn-outline-light">
+            <i class="fa-solid fa-arrow-left me-2"></i>Voltar à Biblioteca
+        </a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'criar_jogo_loja' %}" class="btn btn-warning fw-bold">
+                <i class="fa-solid fa-plus me-1"></i> Adicionar Jogo à Loja
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>🛒 Game Vault Store</h2>
+        <span class="badge bg-danger fs-6">🔥 Ofertas & Destaques</span>
+    </div>
+
+    <div class="row">
+        {% for jogo in ofertas %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 bg-dark text-white border-secondary shadow overflow-hidden">
+                    {% if jogo.imagem_url %}
+                        <img src="{{ jogo.imagem_url }}" class="card-img-top" alt="{{ jogo.titulo }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-black text-center py-5" style="height: 200px;">🎮</div>
+                    {% endif %}
+
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title text-info mb-0">{{ jogo.titulo }}</h5>
+                                {% if jogo.eh_gratis %}
+                                    <span class="badge bg-success fs-6 fw-bold">GRÁTIS</span>
+                                {% endif %}
+                            </div>
+
+                            <p class="text-secondary small mb-2">
+                                {% if jogo.plataforma == 'PC' %}
+                                    <i class="fa-solid fa-desktop me-1 text-info"></i>
+                                {% elif jogo.plataforma == 'PlayStation' %}
+                                    <i class="fa-brands fa-playstation me-1 text-primary"></i>
+                                {% elif jogo.plataforma == 'Xbox' %}
+                                    <i class="fa-brands fa-xbox me-1 text-success"></i>
+                                {% elif jogo.plataforma == 'Nintendo' %}
+                                    <i class="fa-solid fa-gamepad me-1 text-danger"></i>
+                                {% elif jogo.plataforma == 'Mobile' %}
+                                    <i class="fa-solid fa-mobile-screen-button me-1 text-warning"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-gamepad me-1 text-secondary"></i>
+                                {% endif %}
+                                {{ jogo.get_plataforma_display }}
+                            </p>
+                            
+                            {% if jogo.descricao %}
+                                <p class="card-text text-light small">{{ jogo.descricao|truncatewords:10 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-secondary">
+                            <div>
+                                {% if jogo.eh_gratis %}
+                                    <span class="fs-5 fw-bold text-success">Gratuito</span>
+                                {% else %}
+                                    <span class="fs-5 fw-bold text-warning">R$ {{ jogo.preco }}</span>
+                                {% endif %}
+                            </div>
+
+                            <!-- Lógica do Botão (Jogar Grátis vs Ir para Checkout) -->
+                            {% if jogo.eh_gratis %}
+                                {% if jogo.link_compra_jogar %}
+                                    <a href="{{ jogo.link_compra_jogar }}" target="_blank" class="btn btn-success btn-sm fw-bold">
+                                        <i class="fa-solid fa-circle-play me-1"></i> Jogar Agora
+                                    </a>
+                                {% else %}
+                                    <span class="badge bg-secondary">Em Breve</span>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'checkout_jogo' jogo.pk %}" class="btn btn-warning btn-sm fw-bold">
+                                    <i class="fa-solid fa-cart-shopping me-1"></i> Comprar
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <p class="text-white fs-5 fw-bold">Nenhum jogo cadastrado na loja de momento.</p>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'criar_jogo_loja' %}" class="btn btn-warning fw-bold">+ Adicionar Primeiro Jogo à Loja</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

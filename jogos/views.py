@@ -1,62 +1,89 @@
-# jogos/views.py
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from .models import Jogo
-from .forms import JogoForm
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Jogo, JogoLoja
+from .forms import JogoForm, JogoLojaForm, CheckoutForm
 
-# 1. READ (Listagem): Busca TODOS os jogos no banco e envia para a home.html
+# --- VIEWS DA BIBLIOTECA PESSOAL ---
+
 def home(request):
-    jogos = Jogo.objects.all()  # Consulta SQL: SELECT * FROM jogos_jogo;
+    jogos = Jogo.objects.all()
     return render(request, 'home.html', {'jogos': jogos})
 
-# 2. READ (Detalhes): Busca UM jogo pelo seu ID (pk). Se não achar, dá erro 404.
-def detalhe_jogo(request, pk):
+def filtrar_status(request, status_nome):
+    jogos = Jogo.objects.filter(status=status_nome)
+    return render(request, 'home.html', {'jogos': jogos})
+
+def detalhes(request, pk):
     jogo = get_object_or_404(Jogo, pk=pk)
     return render(request, 'detalhes.html', {'jogo': jogo})
 
-# 3. CREATE: Processa o formulário de criação. 
-# Exige que o utilizador esteja autenticado (@login_required).
-@login_required
 def criar_jogo(request):
-    # Se o utilizador enviou o formulário (POST), recebe os dados; senão (GET), abre vazio.
-    form = JogoForm(request.POST or None)
-    if form.is_valid():
-        form.save()  # Salva direto no banco de dados
-        return redirect('home')  # Redireciona para a página principal
+    if request.method == 'POST':
+        form = JogoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = JogoForm()
     return render(request, 'form_jogo.html', {'form': form, 'titulo_pagina': 'Adicionar Jogo'})
 
-# 4. UPDATE: Carrega os dados de um jogo existente (instance=jogo) para edição.
-@login_required
 def editar_jogo(request, pk):
     jogo = get_object_or_404(Jogo, pk=pk)
-    form = JogoForm(request.POST or None, instance=jogo)
-    if form.is_valid():
-        form.save()
-        return redirect('home')
+    if request.method == 'POST':
+        form = JogoForm(request.POST, instance=jogo)
+        if form.is_valid():
+            form.save()
+            return redirect('detalhe_jogo', pk=jogo.pk)
+    else:
+        form = JogoForm(instance=jogo)
     return render(request, 'form_jogo.html', {'form': form, 'titulo_pagina': 'Editar Jogo'})
 
-# 5. DELETE: Apaga o jogo do banco após o utilizador confirmar via POST.
-@login_required
 def eliminar_jogo(request, pk):
     jogo = get_object_or_404(Jogo, pk=pk)
     if request.method == 'POST':
-        jogo.delete()  # Deleta o registo
+        jogo.delete()
         return redirect('home')
     return render(request, 'confirmar_eliminar.html', {'jogo': jogo})
 
-def detalhe_jogo(request, pk):
-    # 1. Busca o jogo pelo ID (pk). Se não encontrar, retorna erro 404 (Página não encontrada).
-    jogo = get_object_or_404(Jogo, pk=pk)
-    
-    # 2. Renderiza o HTML passando o objeto do jogo encontrado.
-    return render(request, 'detalhes.html', {'jogo': jogo})
 
-def filtrar_status(request, status_nome):
-    # 1. Filtra a lista de jogos onde a coluna 'status' bate com a string enviada na URL.
-    jogos = Jogo.objects.filter(status__iexact=status_nome)
+# --- VIEWS DA LOJA / STOREFRONT ---
+
+def loja(request):
+    ofertas = JogoLoja.objects.all()
+    return render(request, 'loja.html', {'ofertas': ofertas})
+
+def criar_jogo_loja(request):
+    if request.method == 'POST':
+        form = JogoLojaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('loja')
+    else:
+        form = JogoLojaForm()
+    return render(request, 'form_jogo.html', {'form': form, 'titulo_pagina': 'Adicionar Jogo à Loja'})
+
+def checkout_jogo(request, pk):
+    jogo = get_object_or_404(JogoLoja, pk=pk)
     
-    # 2. Reaproveita a página inicial (home.html), mas exibindo apenas os jogos filtrados.
-    return render(request, 'home.html', {
-        'jogos': jogos, 
-        'status_atual': status_nome
-    })
+    # Se o jogo for grátis e tiver link direto, redireciona para jogar
+    if jogo.eh_gratis and jogo.link_compra_jogar:
+        return redirect(jogo.link_compra_jogar)
+
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            dados = form.cleaned_data
+            return render(request, 'compra_sucesso.html', {
+                'jogo': jogo,
+                'nome': dados['nome_completo'],
+                'email': dados['email'],
+                'metodo': dict(form.fields['metodo_pagamento'].choices)[dados['metodo_pagamento']]
+            })
+    else:
+        initial_data = {}
+        if request.user.is_authenticated:
+            initial_data['email'] = request.user.email
+            initial_data['nome_completo'] = request.user.get_full_name() or request.user.username
+            
+        form = CheckoutForm(initial=initial_data)
+
+    return render(request, 'checkout.html', {'jogo': jogo, 'form': form})

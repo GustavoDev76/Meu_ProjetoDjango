@@ -43,3 +43,20 @@ def eliminar_jogo(request, pk):
         jogo.delete()  # Deleta o registo
         return redirect('home')
     return render(request, 'confirmar_eliminar.html', {'jogo': jogo})
+
+def detalhe_jogo(request, pk):
+    # 1. Busca o jogo pelo ID (pk). Se não encontrar, retorna erro 404 (Página não encontrada).
+    jogo = get_object_or_404(Jogo, pk=pk)
+    
+    # 2. Renderiza o HTML passando o objeto do jogo encontrado.
+    return render(request, 'detalhes.html', {'jogo': jogo})
+
+def filtrar_status(request, status_nome):
+    # 1. Filtra a lista de jogos onde a coluna 'status' bate com a string enviada na URL.
+    jogos = Jogo.objects.filter(status__iexact=status_nome)
+    
+    # 2. Reaproveita a página inicial (home.html), mas exibindo apenas os jogos filtrados.
+    return render(request, 'home.html', {
+        'jogos': jogos, 
+        'status_atual': status_nome
+    })

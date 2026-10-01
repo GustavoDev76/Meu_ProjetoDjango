@@ -1,29 +1,116 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="card shadow-sm p-4">
-    <h2>{{ jogo.titulo }}</h2>
-    <h5 class="text-muted">{{ jogo.plataforma }}</h5>
-    <hr>
-    <p><strong>Status:</strong> <span class="badge bg-primary">{{ jogo.get_status_display }}</span></p>
-    <p><strong>Nota:</strong> <span class="badge bg-warning text-dark">⭐ {{ jogo.nota }}/10</span></p>
-    <p><strong>Descrição:</strong></p>
-    <p>{{ jogo.descricao|default:"Sem descrição cadastrada." }}</p>
+<div class="container my-4">
+    <!-- Botão de Voltar -->
+    <a href="{% url 'home' %}" class="btn btn-outline-light mb-4">
+        <i class="fa-solid fa-arrow-left me-2"></i>Voltar à Biblioteca
+    </a>
 
-    <div class="mt-4">
-        <a href="{% url 'home' %}" class="btn btn-secondary">Voltar</a>
-        {% if user.is_authenticated %}
-            <a href="{% url 'editar_jogo' jogo.pk %}" class="btn btn-warning">Editar</a>
-            <a href="{% url 'eliminar_jogo' jogo.pk %}" class="btn btn-danger">Eliminar</a>
-        {% endif %}
+    <!-- Card Principal Lado a Lado -->
+    <div class="card bg-dark text-white border-secondary shadow-lg overflow-hidden" style="border-radius: 12px;">
+        <div class="row g-0 align-items-stretch">
+            
+            <!-- Coluna da Esquerda: Capa do Jogo com Fundo Desfocado (Frosted Glass) -->
+            <div class="col-lg-5 col-md-6 position-relative overflow-hidden d-flex align-items-center justify-content-center bg-black p-3" style="min-height: 420px;">
+                {% if jogo.imagem_url %}
+                    <!-- 1. Imagem de Fundo (Esticada + Desfocada para preencher os espaços vazios) -->
+                    <div style="
+                        position: absolute;
+                        top: 0; left: 0; right: 0; bottom: 0;
+                        background-image: url('{{ jogo.imagem_url }}');
+                        background-size: cover;
+                        background-position: center;
+                        filter: blur(20px) brightness(0.4);
+                        transform: scale(1.1);
+                    "></div>
+
+                    <!-- 2. Imagem Principal Nítida (Sem cortes e sem distorção) -->
+                    <img src="{{ jogo.imagem_url }}" 
+                         class="img-fluid position-relative shadow-lg" 
+                         style="max-height: 480px; width: auto; object-fit: contain; z-index: 2; border-radius: 8px;" 
+                         alt="{{ jogo.titulo }}">
+                {% else %}
+                    <div class="text-center py-5 my-5 position-relative" style="z-index: 2;">
+                        <i class="fa-solid fa-gamepad display-1 text-muted mb-3 d-block"></i>
+                        <span class="text-muted">Sem Imagem de Capa</span>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Coluna da Direita: Informações do Jogo -->
+            <div class="col-lg-7 col-md-6 p-4 p-lg-5 d-flex flex-column justify-content-between">
+                <div>
+                    <!-- Status e Plataforma no Topo -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <!-- Badge Dinâmica com Ícone da Plataforma -->
+                        <span class="badge bg-secondary text-uppercase px-3 py-2 fs-6">
+                            {% if jogo.plataforma == 'PC' %}
+                                <i class="fa-solid fa-desktop me-1 text-info"></i>
+                            {% elif jogo.plataforma == 'PlayStation' %}
+                                <i class="fa-brands fa-playstation me-1 text-primary"></i>
+                            {% elif jogo.plataforma == 'Xbox' %}
+                                <i class="fa-brands fa-xbox me-1 text-success"></i>
+                            {% elif jogo.plataforma == 'Nintendo' %}
+                                <i class="fa-solid fa-gamepad me-1 text-danger"></i>
+                            {% elif jogo.plataforma == 'Mobile' %}
+                                <i class="fa-solid fa-mobile-screen-button me-1 text-warning"></i>
+                            {% else %}
+                                <i class="fa-solid fa-gamepad me-1"></i>
+                            {% endif %}
+                            {{ jogo.get_plataforma_display|default:jogo.plataforma }}
+                        </span>
+                        
+                        <!-- Badge Dinâmica do Status -->
+                        {% if jogo.status == 'Concluído' %}
+                            <span class="badge bg-success px-3 py-2 fs-6">🏆 {{ jogo.status }}</span>
+                        {% elif jogo.status == 'Jogando' %}
+                            <span class="badge bg-warning text-dark px-3 py-2 fs-6">🎮 {{ jogo.status }}</span>
+                        {% elif jogo.status == 'A Jogar' %}
+                            <span class="badge bg-info text-dark px-3 py-2 fs-6">📌 {{ jogo.status }}</span>
+                        {% else %}
+                            <span class="badge bg-danger px-3 py-2 fs-6">❌ {{ jogo.status }}</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Título do Jogo -->
+                    <h1 class="display-5 fw-bold text-info my-3">{{ jogo.titulo }}</h1>
+
+                    <!-- Avaliação / Nota -->
+                    <div class="mb-4 d-flex align-items-center gap-2">
+                        <span class="fs-5 text-muted">Avaliação:</span>
+                        <span class="badge bg-warning text-dark fs-5 px-3 py-1 fw-bold">
+                            ⭐ {{ jogo.nota }}/10
+                        </span>
+                    </div>
+
+                    <hr class="border-secondary my-4">
+
+                    <!-- Descrição -->
+                    <div class="mb-4">
+                        <h5 class="text-light fw-bold mb-2">
+                            <i class="fa-solid fa-align-left me-2 text-info"></i>Sobre o Jogo
+                        </h5>
+                        <p class="card-text text-light fs-6 lh-lg" style="white-space: pre-line;">
+                            {{ jogo.descricao|default:"Nenhuma descrição cadastrada para este jogo." }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Botões de Ação na Parte Inferior -->
+                <div class="pt-3 border-top border-secondary d-flex flex-wrap gap-2">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'editar_jogo' jogo.pk %}" class="btn btn-warning px-4 fw-bold">
+                            <i class="fa-solid fa-pen-to-square me-2"></i>Editar
+                        </a>
+                        <a href="{% url 'eliminar_jogo' jogo.pk %}" class="btn btn-outline-danger px-4 fw-bold">
+                            <i class="fa-solid fa-trash me-2"></i>Eliminar
+                        </a>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
-{% endblock %}<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"><head>
-<!--[if gte mso 9]><xml>
-<mso:CustomDocumentProperties>
-<mso:_ApprovalStatus msdt:dt="string">0</mso:_ApprovalStatus>
-<mso:_ApprovalAssignedTo msdt:dt="string"></mso:_ApprovalAssignedTo>
-<mso:_ApprovalRespondedBy msdt:dt="string"></mso:_ApprovalRespondedBy>
-</mso:CustomDocumentProperties>
-</xml><![endif]-->
-</head>
+{% endblock %}

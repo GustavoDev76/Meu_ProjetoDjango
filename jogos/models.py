@@ -8,8 +8,21 @@ class Jogo(models.Model):
         ('Abandonado', 'Abandonado'),
     ]
 
+    PLATAFORMA_CHOICES = [
+        ('PC', 'Computador (PC)'),
+        ('PlayStation', 'PlayStation'),
+        ('Xbox', 'Xbox'),
+        ('Nintendo', 'Nintendo'),
+        ('Mobile', 'Telemóvel / Tablet'),
+        ('Outro', 'Outra Plataforma'),
+    ]
+
     titulo = models.CharField(max_length=100)
-    plataforma = models.CharField(max_length=50)
+    plataforma = models.CharField(
+        max_length=20, 
+        choices=PLATAFORMA_CHOICES, 
+        default='PC'
+    )
     descricao = models.TextField(blank=True, default='')
     nota = models.IntegerField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='A Jogar')

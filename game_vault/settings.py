@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-(eclt^ypvd4=79v8(egdk_bcg9fmdhpkpfyl=-$h^$_o^xbijo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['gustsaints77.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['gustsaints77.pythonanywhere.com', 'localhost' '127.0.0.1']
 
 # Redirecionamento de Autenticação
 LOGIN_REDIRECT_URL = 'home'  # Para onde vai depois de fazer login
@@ -121,7 +121,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
-
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Esta linha faz o Django procurar ficheiros na pasta static/ da app jogos

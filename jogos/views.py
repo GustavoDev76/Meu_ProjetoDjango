@@ -87,3 +87,14 @@ def checkout_jogo(request, pk):
         form = CheckoutForm(initial=initial_data)
 
     return render(request, 'checkout.html', {'jogo': jogo, 'form': form})
+
+def editar_jogo_loja(request, pk):
+    jogo = get_object_or_404(JogoLoja, pk=pk)
+    if request.method == 'POST':
+        form = JogoLojaForm(request.POST, instance=jogo)
+        if form.is_valid():
+            form.save()
+            return redirect('loja')
+    else:
+        form = JogoLojaForm(instance=jogo)
+    return render(request, 'form_jogo.html', {'form': form, 'titulo_pagina': f'Editar {jogo.titulo}'})

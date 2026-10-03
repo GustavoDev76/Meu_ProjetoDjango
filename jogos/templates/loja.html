@@ -70,20 +70,29 @@
                                 {% endif %}
                             </div>
 
-                            <!-- Lógica do Botão (Jogar Grátis vs Ir para Checkout) -->
-                            {% if jogo.eh_gratis %}
-                                {% if jogo.link_compra_jogar %}
-                                    <a href="{{ jogo.link_compra_jogar }}" target="_blank" class="btn btn-success btn-sm fw-bold">
-                                        <i class="fa-solid fa-circle-play me-1"></i> Jogar Agora
+                            <div class="d-flex gap-2 align-items-center">
+                                <!-- Botão para Editar Jogo da Loja (Visível para Utilizadores Autenticados) -->
+                                {% if user.is_authenticated %}
+                                    <a href="{% url 'editar_jogo_loja' jogo.pk %}" class="btn btn-outline-info btn-sm" title="Editar Jogo">
+                                        <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
-                                {% else %}
-                                    <span class="badge bg-secondary">Em Breve</span>
                                 {% endif %}
-                            {% else %}
-                                <a href="{% url 'checkout_jogo' jogo.pk %}" class="btn btn-warning btn-sm fw-bold">
-                                    <i class="fa-solid fa-cart-shopping me-1"></i> Comprar
-                                </a>
-                            {% endif %}
+
+                                <!-- Lógica do Botão Principal (Jogar Grátis vs Ir para Checkout) -->
+                                {% if jogo.eh_gratis %}
+                                    {% if jogo.link_compra_jogar %}
+                                        <a href="{{ jogo.link_compra_jogar }}" target="_blank" class="btn btn-success btn-sm fw-bold">
+                                            <i class="fa-solid fa-circle-play me-1"></i> Jogar
+                                        </a>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Em Breve</span>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{% url 'checkout_jogo' jogo.pk %}" class="btn btn-warning btn-sm fw-bold">
+                                        <i class="fa-solid fa-cart-shopping me-1"></i> Comprar
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>

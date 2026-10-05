@@ -329,3 +329,59 @@ footer {
     color: #64748b;
     font-size: 0.82rem;
 }
+
+/* Cores e Efeitos Cyberpunk */
+:root {
+    --neon-green: #00ff66;
+    --neon-cyan: #00f3ff;
+    --neon-pink: #ff0055;
+    --dark-bg: #121212;
+    --card-bg: #1a1a24;
+}
+
+.style-cyberpunk-card {
+    background-color: var(--card-bg) !important;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+    border: 1px solid rgba(0, 243, 255, 0.3) !important;
+}
+
+.text-neon {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
+}
+
+.text-neon-cyan {
+    color: var(--neon-cyan);
+}
+.text-neon-cyan:hover {
+    color: var(--neon-green);
+    text-shadow: 0 0 5px var(--neon-green);
+}
+
+.bg-dark-input {
+    background-color: #0d0d13 !important;
+    color: #ffffff !important;
+}
+
+.cyberpunk-input:focus {
+    background-color: #14141e !important;
+    border-color: var(--neon-cyan) !important;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.5) !important;
+    color: #fff !important;
+}
+
+.btn-cyberpunk {
+    background: linear-gradient(45deg, #ff0055, #00f3ff);
+    border: none;
+    color: #ffffff;
+    padding: 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
+}
+
+.btn-cyberpunk:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.8);
+    color: #fff;
+}

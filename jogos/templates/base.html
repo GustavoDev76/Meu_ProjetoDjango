@@ -28,10 +28,10 @@
                 </a>
             </div>
             
-            <!-- Direita: Saudação + Sair / Entrar -->
-            <div class="d-flex align-items-center ms-auto">
+            <!-- Direita: Saudação + Sair / Entrar & Criar Conta -->
+            <div class="d-flex align-items-center ms-auto gap-2">
                 {% if user.is_authenticated %}
-                    <span class="navbar-text me-3 text-white d-flex align-items-center gap-2">
+                    <span class="navbar-text me-2 text-white d-flex align-items-center gap-2">
                         <i class="fa-regular fa-user text-white fs-5"></i> Olá, <strong>{{ user.username }}</strong>
                     </span>
                     <form action="{% url 'logout' %}" method="post" class="d-inline">
@@ -43,6 +43,9 @@
                 {% else %}
                     <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">
                         <i class="fa-regular fa-user me-1"></i> Entrar
+                    </a>
+                    <a href="{% url 'register' %}" class="btn btn-sm text-white fw-bold" style="background: linear-gradient(45deg, #ff0055, #00f3ff); border: none;">
+                        <i class="fa-solid fa-user-plus me-1"></i> Criar Conta
                     </a>
                 {% endif %}
             </div>
@@ -72,6 +75,7 @@
                         <li><a href="{% url 'loja' %}">🛒 Loja de Ofertas</a></li>
                         {% if not user.is_authenticated %}
                             <li><a href="{% url 'login' %}">Aceder à Conta</a></li>
+                            <li><a href="{% url 'register' %}">Criar Conta</a></li>
                         {% endif %}
                     </ul>
                 </div>

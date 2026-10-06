@@ -1,6 +1,26 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from .models import Jogo, JogoLoja
 
+
+# --- FORMULÁRIO DE CADASTRO COM EMAIL ---
+class CadastroComEmailForm(UserCreationForm):
+    email = forms.EmailField(
+        required=True,
+        label="E-mail",
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control bg-dark text-white border-secondary',
+            'placeholder': 'seu@email.com'
+        })
+    )
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ("username", "email")
+
+
+# --- FORMULÁRIOS DE JOGOS E LOJA ---
 class JogoForm(forms.ModelForm):
     class Meta:
         model = Jogo
@@ -14,7 +34,7 @@ class JogoForm(forms.ModelForm):
             'descricao': forms.Textarea(attrs={'class': 'form-control bg-dark text-white border-secondary', 'rows': 3}),
         }
 
-# ⬇️ NOVO FORMULÁRIO EXCLUSIVO PARA A LOJA ⬇️
+
 class JogoLojaForm(forms.ModelForm):
     class Meta:
         model = JogoLoja
@@ -28,6 +48,7 @@ class JogoLojaForm(forms.ModelForm):
             'imagem_url': forms.URLInput(attrs={'class': 'form-control bg-dark text-white border-secondary', 'placeholder': 'https://exemplo.com/capa.jpg'}),
             'descricao': forms.Textarea(attrs={'class': 'form-control bg-dark text-white border-secondary', 'rows': 3}),
         }
+
 
 class CheckoutForm(forms.Form):
     METODOS_PAGAMENTO = [

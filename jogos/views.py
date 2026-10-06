@@ -18,7 +18,7 @@ def register(request):
             # 1. Salva o usuário no banco de dados com e-mail
             user = form.save()
 
-            # --- INTEGRAÇÃO EMAILJS (Via urllib nativo do Python) ---
+            # --- INTEGRAÇÃO EMAILJS ---
             emailjs_url = 'https://api.emailjs.com/api/v1.0/email/send'
             payload = {
                 'service_id': 'SEU_SERVICE_ID',
@@ -32,7 +32,6 @@ def register(request):
             }
 
             try:
-                # Transforma o payload num JSON em bytes para envio HTTP nativo
                 data = json.dumps(payload).encode('utf-8')
                 req = urllib.request.Request(
                     emailjs_url,
@@ -40,12 +39,11 @@ def register(request):
                     headers={'Content-Type': 'application/json'}
                 )
 
-                # Dispara a requisição para o EmailJS
-                with urllib.request.urlopen(req, timeout=10) as resposta:
-                    if resposta.status != 200:
-                        print(f"Erro EmailJS: {resposta.read().decode('utf-8')}")
+                # Timeout de 3s garante que o site NUNCA trave
+                with urllib.request.urlopen(req, timeout=3) as resposta:
+                    pass
             except Exception as e:
-                print(f"Erro de conexão EmailJS: {e}")
+                print(f"Aviso EmailJS: {e}")
             # --------------------------
 
             # 2. Faz o login automático e redireciona para a biblioteca

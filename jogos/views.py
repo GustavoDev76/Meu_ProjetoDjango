@@ -21,10 +21,10 @@ def register(request):
             # --- INTEGRAÇÃO EMAILJS ---
             emailjs_url = 'https://api.emailjs.com/api/v1.0/email/send'
             payload = {
-                'service_id': 'SEU_SERVICE_ID',
-                'template_id': 'SEU_TEMPLATE_ID',
-                'user_id': 'SUA_PUBLIC_KEY',
-                'accessToken': 'SUA_PRIVATE_KEY',
+                'service_id': 'service_3qiq2rm',
+                'template_id': 'template_d6qo37o',
+                'user_id': 'rdNtIeyVwgrzGGa9W',
+                'accessToken': '8oRiLLz5g5XrTqSOG95FO',
                 'template_params': {
                     'nome_usuario': user.username,
                     'email_destino': user.email
